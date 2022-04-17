@@ -1,0 +1,46 @@
+<!-- Navigation -->
+<header>
+  <nav class="navbar">
+    <a class="logo" href="/">
+      <img src="/img/logo.png" alt="Drive Test Kiosk" width="100px" />
+    </a>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/">dashboard</a>
+      </li>
+      <% if (loggedIn) { %>
+      <% if (userType === 'driver') { %>
+      <li class="nav-item">
+        <a class="nav-link" href="/g2_test">g2 test</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/g_test">g test</a>
+      </li>
+      <% } %>
+
+      <% if (userType === 'admin') { %>
+      <li class="nav-item">
+        <a class="nav-link" href="/appointment">appointment</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/result">result</a>
+      </li>
+      <% } %>
+
+      <% if (userType === 'examiner') { %>
+      <li class="nav-item">
+        <a class="nav-link" href="/examiner">examiner</a>
+      </li>
+      <% } %>
+
+      <li class="nav-item">
+        <a class="nav-link" href="/auth/logout">logout</a>
+      </li>
+      <% } else { %>
+      <li class="nav-item">
+        <a class="nav-link" href="/auth/login">login</a>
+      </li>
+      <% } %>
+    </ul>
+  </nav>
+</header>

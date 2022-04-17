@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('layouts/head');-%>
+
+<body>
+
+  <!-- Navigation -->
+  <%- include('layouts/navbar');-%>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <section>
+      <div class="hero_text">
+        <h2 class="hero-text-heading">
+          signup
+        </h2>
+        <% if (errors != null && errors.length > 0) { %>
+        <ul class="list-group">
+          <% for (var i = 0; i < errors.length; i++) { %>
+          <li class="list-group-item list-group-item-danger"><%= errors[i] %></li>
+          <% } %>
+        </ul>
+        <% } %>
+        <form class="signup-form" action="/users/signup" method="POST">
+          <div class="form-content">
+            <label class="username-label" for="username">username</label>
+            <input type="text" name="username" class="username-input" value="<%= username%>" />
+          </div>
+          <div class="form-content">
+            <label class="password-label" for="password">password</label>
+            <input type="password" name="password" class="password-input" value="<%= password%>" />
+          </div>
+          <div class="form-content">
+            <label class="password-label" for="password">confirm password</label>
+            <input type="password" name="confirmPassword" class="password-input" value="<%= confirmPassword%>" />
+          </div>
+          <div class="form-content">
+            <label class="usertype-label" for="usertype">user type</label>
+            <select name="userType" class="usertype-dropdown">
+              <option value="driver">driver</option>
+              <option value="examiner">examiner</option>
+              <option value="admin">admin</option>
+            </select>
+          </div>
+          <div class="g2-test-submit-btn">
+            <button class="hero-text-button" type="submit" id='submit'>
+              signup
+            </button>
+          </div>
+        </form>
+        <br />
+        <p>Already have an account?
+          <a href="/auth/login" class="login-btn">login</a>
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <%- include('layouts/footer');-%>
+
+</body>
+
+</html>

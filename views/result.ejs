@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('layouts/head');-%>
+
+<body>
+
+  <!-- Navigation -->
+  <%- include('layouts/navbar');-%>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <section>
+      <div class="hero_text">
+        <h2 class="hero-text-heading">
+          results
+        </h2>
+
+        <fieldset class="examiner-fieldset">
+          <legend>
+            list of results
+          </legend>
+          <div class="form-content">
+            <form class="appointment-form" action="" method="GET">
+              <select class="test_type_dropdown" name="result">
+                <% if(result === 'true') {%>
+                <option value="true" selected>pass</option>
+                <% } else { %>
+                <option value="true">pass</option>
+                <% } %>
+
+                <% if(result === 'false') {%>
+                <option value="false" selected>fail</option>
+                <% } else { %>
+                <option value="false">fail</option>
+                <% } %>
+
+                <% if(result === 'all') {%>
+                <option value="all" selected>all</option>
+                <% } else { %>
+                <option value="all">all</option>
+                <% } %>
+
+              </select>
+              <input type="submit" class="submit" value="search">
+            </form>
+          </div>
+        </fieldset>
+
+        <div>
+
+          <% if (userWithAppointments.length > 0) { %>
+          <table class="appointment-table">
+            <thead>
+              <tr>
+                <th>s. no.</th>
+                <th>name</th>
+                <th>test type</th>
+                <th>date</th>
+                <th>time</th>
+                <th>examiner comments</th>
+                <th>result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% userWithAppointments.forEach(function(data, idx) { %>
+              <tr>
+                <td class="appointment-test-type">
+                  <%= idx + 1 %>
+                </td>
+                <td class="appointment-name">
+                  <%= data.user.first_name %> <%= data.user.last_name %>
+                </td>
+                <td class="appointment-test-type">
+                  <%= data.user.test_type %>
+                </td>
+                <td class="appointment-date">
+                  <%= data.appointment.Date %>
+                </td>
+                <td class="appointment-time">
+                  <%= data.appointment.Time %>
+                </td>
+                <td class="examiner-comments">
+                  <%= data.user.comments %>
+                </td>
+                <td class="result">
+                  <%= data.user.examiner_feedback? 'pass' : 'fail' %>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+          <% } else { %>
+          <p>No data available.</p>
+          <% } %>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <%- include('layouts/footer');-%>
+
+</body>
+
+</html>

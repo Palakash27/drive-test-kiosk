@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('layouts/head');-%>
+
+<body>
+
+  <!-- Navigation -->
+  <%- include('layouts/navbar');-%>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <section>
+      <div class="hero_text">
+        <h2 class="hero-text-heading">
+          login
+        </h2>
+        <% if (errors != null && errors.length > 0) { %>
+        <ul class="list-group">
+          <% for (var i = 0; i < errors.length; i++) { %>
+          <li class="list-group-item list-group-item-danger"><%= errors[i] %></li>
+          <% } %>
+        </ul>
+        <% } %>
+        <% if (loginErrors != null && loginErrors.length > 0) { %>
+        <ul class="list-group">
+          <% for (var i = 0; i < loginErrors.length; i++) { %>
+          <li class="list-group-item list-group-item-danger"><%= loginErrors[i] %></li>
+          <% } %>
+        </ul>
+        <% } %>
+        <% if (success != null && success.length > 0) { %>
+        <ul class="list-group">
+          <% for (var i = 0; i < success.length; i++) { %>
+          <li class="list-group-item list-group-item-success"><%= success[i] %></li>
+          <% } %>
+        </ul>
+        <% } %>
+        <form class="login-form" action="/users/login" method="POST">
+          <div class="form-content">
+            <label class="username-label" for="username">username</label>
+            <input type="text" name="username" class="username-input" />
+          </div>
+          <div class="form-content">
+            <label class="password-label" for="password">password</label>
+            <input type="password" name="password" class="password-input" />
+          </div>
+          <div class="g2-test-submit-btn">
+            <button class="hero-text-button" type="submit" id='submit'>
+              login
+            </button>
+          </div>
+        </form>
+        <br />
+        <p>Don't have an account?
+          <a href="/auth/signup" class="signup-btn">signup</a>
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <%- include('layouts/footer');-%>
+
+</body>
+
+</html>

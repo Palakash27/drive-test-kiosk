@@ -1,0 +1,39 @@
+<!-- Footer -->
+<footer class="footer-container">
+  <div class="footer">
+    <div class="footer-left-container">
+      <a class="logo" href="/">
+        <img src="/img/logo.png" alt="Drive Test Kiosk" width="100px" />
+      </a>
+      <p class="tag-line">we take drive test</p>
+    </div>
+    <div class="footer-right-container">
+      <h3 class="footer-heading">quick links</h3>
+      <ul class="footer-navbar">
+        <li class="footer-nav-item">
+          <a class="footer-nav-link" href="/">dashboard</a>
+        </li>
+        <% if (loggedIn) { %>
+        <% if (userType === 'driver') { %>
+        <li class="footer-nav-item">
+          <a class="footer-nav-link" href="/g2_test">g2 test</a>
+        </li>
+        <li class="footer-nav-item">
+          <a class="footer-nav-link" href="/g_test">g test</a>
+        </li>
+        <% } %>
+        <li class="footer-nav-item">
+          <a class="footer-nav-link" href="/auth/logout">logout</a>
+        </li>
+        <% } else { %>
+        <li class="footer-nav-item">
+          <a class="footer-nav-link" href="/auth/login">login</a>
+        </li>
+        <% } %>
+    </div>
+  </div>
+  <hr class="footer-line-break">
+  <h3 class="footer-copyright">
+    © 2021 drive test corp. all rights reserved.
+  </h3>
+</footer>

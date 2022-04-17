@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('layouts/head');-%>
+
+<body>
+
+  <!-- Navigation -->
+  <%- include('layouts/navbar');-%>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <section>
+      <div class="hero_text">
+        <h2 class="hero-text-heading">
+          examiner
+        </h2>
+
+        <fieldset class="examiner-fieldset">
+          <legend>
+            list of appointments
+          </legend>
+          <div class="form-content">
+            <form class="appointment-form" action="" method="GET">
+              <select class="test_type_dropdown" name="test_type">
+                <% if(test_type === 'G') {%>
+                <option value="G" selected>g test</option>
+                <% } else { %>
+                <option value="G">g test</option>
+                <% } %>
+
+                <% if(test_type === 'G2') {%>
+                <option value="G2" selected>g2 test</option>
+                <% } else { %>
+                <option value="G2">g2 test</option>
+                <% } %>
+
+                <% if(test_type === 'all') {%>
+                <option value="all" selected>all</option>
+                <% } else { %>
+                <option value="all">all</option>
+                <% } %>
+
+              </select>
+              <input type="submit" class="submit" value="search">
+            </form>
+          </div>
+        </fieldset>
+
+        <form class="login-form" action="/examiner" method="POST">
+
+          <% if (userWithAppointments.length > 0) { %>
+          <table class="appointment-table">
+            <thead>
+              <tr>
+                <th>s. no.</th>
+                <th>name</th>
+                <th>test type</th>
+                <th>date</th>
+                <th>time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% userWithAppointments.forEach(function(data, idx) { %>
+              <tr>
+                <td class="appointment-test-type">
+                  <%= idx + 1 %>
+                </td>
+                <td class="appointment-name">
+                  <a href="/examiner?test_type=<%= test_type %>&user=<%= data.user._id %>">
+                    <%= data.user.first_name %> <%= data.user.last_name %>
+                  </a>
+                </td>
+                <td class="appointment-test-type">
+                  <%= data.user.test_type %>
+                </td>
+                <td class="appointment-date">
+                  <%= data.appointment.Date %>
+                </td>
+                <td class="appointment-time">
+                  <%= data.appointment.Time %>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+          <% } else { %>
+          <p>No appointments available.</p>
+          <% } %>
+
+
+          <% if (user) { %>
+          <% let selectedUser = userWithAppointments.filter((u)=>u.user._id.toString() === user); %>
+
+          <fieldset class="g2form-fieldset">
+            <legend>
+              Personal details
+            </legend>
+            <div class="form-content">
+              <label class="first-name-label" for="first_name">first name</label>
+              <input type="text" name="first_name" class="first-name-input" required value="<%= selectedUser[0].user.first_name %>" disabled />
+            </div>
+            <div class="form-content">
+              <label class="last-name-label" for="last_name">last name</label>
+              <input type="text" name="last_name" class="last-name-input" required value="<%= selectedUser[0].user.last_name %>" disabled />
+            </div>
+          </fieldset>
+
+          <fieldset class="g2form-fieldset">
+            <legend>
+              car details
+            </legend>
+            <div class="form-content">
+              <label class="car-details-label" for="make">make</label>
+              <input type="text" name="make" class="car-details-input" required value="<%= selectedUser[0].user.car_details.make %>" disabled />
+            </div>
+            <div class="form-content">
+              <label class="car-details-label" for="model">model</label>
+              <input type="text" name="model" class="car-details-input" required value="<%= selectedUser[0].user.car_details.model %>" disabled />
+            </div>
+            <div class="form-content">
+              <label class="car-details-label" for="year">year</label>
+              <input type="number" onKeyPress="if(this.value.length==4) return false;" name="year" class="car-details-input" required value="<%= selectedUser[0].user.car_details.year %>" disabled />
+            </div>
+            <div class="form-content">
+              <label class="car-details-label" for="plat_no">plate #</label>
+              <input type="text" name="plat_no" class="car-details-input" required value="<%= selectedUser[0].user.car_details.plat_no %>" disabled />
+            </div>
+          </fieldset>
+
+          <fieldset class="g2form-fieldset">
+            <legend>
+              examiner remarks
+            </legend>
+            <div class="form-content">
+              <label class="comments-label" for="comments">comments</label>
+              <textarea rows="5" cols="30" name="comments" class="comments-input" required></textarea>
+            </div>
+            <div class="form-content">
+              <label class="result-label" for="result">result</label>
+              <div>
+                <input type="radio" class="" name="result" value="passed" required />
+                <label class="radio-result-label" for="result">pass</label>
+              </div>
+              <div>
+                <input type="radio" class="" name="result" value="failed" required />
+                <label class="radio-result-label" for="result">fail</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="g2-test-submit-btn">
+            <input type="text" name="user_id" hidden value="<%= selectedUser[0].user._id %>" />
+            <button class="hero-text-button" type="submit" id='submit'>
+              submit
+            </button>
+          </div>
+          <% } %>
+
+        </form>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <%- include('layouts/footer');-%>
+
+</body>
+
+</html>

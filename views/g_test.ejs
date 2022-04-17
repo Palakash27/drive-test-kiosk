@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('layouts/head');-%>
+
+<body>
+
+  <!-- Navigation -->
+  <%- include('layouts/navbar');-%>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <section>
+      <div class="hero_text">
+        <h2 class="hero-text-heading">
+          g test
+        </h2>
+        <% if(updateSuccess) { %>
+        <div role="alert" class="user-updated">
+          <p>User Updated Successfully</p>
+        </div>
+        <% } %>
+        <% if(err) { %>
+        <div role="alert" class="error">
+          <p>Error occured</p>
+        </div>
+        <% } %>
+
+        <% if(Object.keys(user).length !==0) { %>
+
+        <fieldset class="login-form">
+          <legend>
+            book an appointment
+          </legend>
+          <% if (user.appointment_id) { %>
+          <p class="appointment-form">Appointment scheduled for <%= user.test_type %> test <%= appointments.Date %> at <%= appointments.Time %> </p>
+          <% } else { %>
+          <div class="form-content">
+            <form class="appointment-form" action="" method="GET">
+              <input type="date" class="date" name="date" value="<%= date %>" min="<%= utils.formattedDate(new Date()) %>">
+              <input type="submit" class="submit" value="search">
+            </form>
+          </div>
+          <% } %>
+        </fieldset>
+
+        <form class="login-form" method="POST" action="/update_g_test">
+          <% if (user.appointment_id) { %>
+          <% } else if (appointments.length > 0) { %>
+          <table class="appointment-table">
+            <thead>
+              <tr>
+                <th>date</th>
+                <th>time</th>
+                <th>slots</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% appointments.forEach(function(appointment) { %>
+              <tr>
+                <td class="appointment-date">
+                  <%= appointment.Date %>
+                </td>
+                <td class="appointment-time">
+                  <%= appointment.Time %>
+                </td>
+                <td class="appointment-is-available">
+                  <%if(appointment.isTimeSlotAvailable) {%>
+                  <input type="radio" class="" name="appointment_id" value="<%= appointment._id %>" required />
+                  <% } %>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+          <% } else { %>
+          <p>No slots available.</p>
+          <% } %>
+
+          <fieldset class="g2form-fieldset" disabled>
+            <legend>
+              personal details
+            </legend>
+            <div class="form-content">
+              <label class="first-name-label" for="first_name">first name</label>
+              <input type="text" name="first_name" class="first-name-input" value="<%= user.first_name %>" />
+            </div>
+            <div class="form-content">
+              <label class="last-name-label" for="last_name">last name</label>
+              <input type="text" name="last_name" class="last-name-input" value="<%= user.last_name %>" />
+            </div>
+            <div class="form-content">
+              <label class="user-id-label" for="user_id">user id (email)</label>
+              <input type="email" name="user_id" class="user-id-input" value="<%= user.user_id %>" />
+            </div>
+            <div class="form-content">
+              <label class="dob-label" for="dob">date of birth</label>
+              <input type="date" name="dob" class="dob-input" value="<%= user.dob %>" />
+            </div>
+          </fieldset>
+          <fieldset class="g2form-fieldset">
+            <legend>
+              address
+            </legend>
+            <div class="form-content">
+              <label class="address-label" for="house_no">house #</label>
+              <input type="number" name="house_no" class="address-input" value="<%= user.house_no %>" />
+            </div>
+            <div class="form-content">
+              <label class="address-label" for="street_name">street name</label>
+              <input type="text" name="street_name" class="address-input" value="<%= user.street_name %>" />
+            </div>
+            <div class="form-content">
+              <label class="address-label" for="city">city</label>
+              <input type="text" name="city" class="address-input" value="<%= user.city %>" />
+            </div>
+            <div class="form-content">
+              <label class="address-label" for="province">province</label>
+              <input type="text" name="province" class="address-input" value="<%= user.province %>" />
+            </div>
+            <div class="form-content">
+              <label class="address-label" for="postal_code">postal code</label>
+              <input type="text" name="postal_code" class="address-input" value="<%= user.postal_code %>" />
+            </div>
+          </fieldset>
+          <fieldset class="g2form-fieldset">
+            <legend>
+              car details
+            </legend>
+            <div class="form-content">
+              <label class="car-details-label" for="make">make</label>
+              <input type="text" name="make" class="car-details-input" value="<%= user.make %>" />
+            </div>
+            <div class="form-content">
+              <label class="car-details-label" for="model">model</label>
+              <input type="text" name="model" class="car-details-input" value="<%= user.model %>" />
+            </div>
+            <div class="form-content">
+              <label class="car-details-label" for="year">year</label>
+              <input type="number" name="year" class="car-details-input" maxlength="4" value="<%= user.year %>" />
+            </div>
+            <div class="form-content">
+              <label class="car-details-label" for="plat_no">plat #</label>
+              <input type="text" name="plat_no" class="car-details-input" value="<%= user.plat_no %>" />
+            </div>
+          </fieldset>
+          <fieldset class="g2form-fieldset" disabled>
+            <legend>
+              license
+            </legend>
+            <div class="form-content">
+              <label class="license-label" for="license_no">license #</label>
+              <input type="text" name="license_no" class="license-input" onkeypress="return /[0-9A-Za-z]/i.test(event.key)" maxlength="8" value="<%= user.license_no %>" />
+            </div>
+          </fieldset>
+          <% if(user.images.length> 0) { %>
+          <fieldset class="g2form-fieldset" disabled>
+            <legend>
+              Image
+            </legend>
+            <div class="form-content">
+              <% user.images.forEach((image)=> { %>
+              <img src="<%= image %>" height="100px" />
+              <% }); %>
+            </div>
+          </fieldset>
+          <% } %>
+
+          <% if(user.examiner_feedback != undefined && user.test_type === 'G') { %>
+          <fieldset class="g2form-fieldset">
+            <legend>
+              Examiner feedback
+            </legend>
+            <div class="form-content">
+              <label class="comments-label" for="comments">comments</label>
+              <textarea rows="5" cols="30" name="comments" class="comments-input" required disabled><%= user.comments %></textarea>
+            </div>
+            <div class="form-content">
+              <label class="examiner_feedback-label" for="examiner_feedback">test status</label>
+              <input type="text" name="examiner_feedback" class="examiner_feedback-input" required value="<%= user.examiner_feedback? 'pass' : 'fail' %>" disabled />
+            </div>
+          </fieldset>
+          <% } %>
+
+          <div class="g2-test-submit-btn">
+            <!-- This userid element is hidden because we want user_id to fetch user details -->
+            <input type="email" name="user_id" value="<%= user.user_id %>" hidden />
+
+            <input type="text" name="test_type" value="G" hidden />
+
+            <button class="hero-text-button" type="submit" id='submit'>
+              Update data
+            </button>
+          </div>
+        </form>
+        <% } %>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <%- include('layouts/footer');-%>
+
+</body>
+
+</html>

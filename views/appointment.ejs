@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('layouts/head');-%>
+
+<body>
+
+  <!-- Navigation -->
+  <%- include('layouts/navbar');-%>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <section>
+      <div class="hero_text">
+        <h2 class="hero-text-heading">
+          create appointments
+        </h2>
+        <form class="appointment-form" action="" method="GET">
+          <input type="date" class="date" name="date" value="<%= date %>" min="<%= utils.formattedDate(new Date()) %>">
+          <input type="submit" class="submit" value="search">
+        </form>
+        <% if (appointments.length > 0) { %>
+        <table class="appointment-table">
+          <thead>
+            <tr>
+              <th>date</th>
+              <th>time</th>
+              <th>status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% appointments.forEach(function(appointment) { %>
+            <tr>
+              <td class="appointment-date">
+                <%= appointment.Date %>
+              </td>
+              <td class="appointment-time">
+                <%= appointment.Time %>
+              </td>
+              <td class="appointment-is-available">
+                <%if(!appointment.isTimeSlotAvailable) {%>
+                <a href="/create/appointment?date=<%=appointment.Date%>&time=<%=appointment.Time%>">
+                  <button class="book-btn">
+                    create
+                  </button>
+                </a>
+                <% } else { %>
+                <button class="book-btn" disabled>already created</button>
+                <% } %>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        <% }%>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <%- include('layouts/footer');-%>
+
+</body>
+
+</html>
