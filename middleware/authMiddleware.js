@@ -1,11 +1,11 @@
-const User = require('../model/user');
+const User = require('../model/User');
 
 module.exports = (req, res, next) => {
-  User.findById(req.session.userId, (error, user) => {
-    if (error || !user) {
-      return res.redirect('/auth/login');
-    }
+    User.findById(req.session.userId, (error, user) => {
+        if (error || !user) {
+            return res.redirect('/auth/login');
+        }
 
-    next();
-  });
+        next();
+    });
 };

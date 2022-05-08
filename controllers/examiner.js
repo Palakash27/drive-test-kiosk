@@ -1,43 +1,41 @@
 const Appointment = require('../model/Appointment');
-const User = require('../model/user');
+const User = require('../model/User');
 
 module.exports = (req, res) => {
-  let { test_type, user } = req.query;
+    let { test_type, user } = req.query;
 
-  if (!test_type) {
-    test_type = 'all';
-    return res.redirect('/examiner?test_type=' + test_type);
-  }
-
-  User.find({ appointment_id: { $exists: true } }, async (err, users) => {
-    if (err) {
-      console.log('Error: ', err);
+    if (!test_type) {
+        test_type = 'all';
+        return res.redirect(`/examiner?test_type=${test_type}`);
     }
 
-    const userWithAppointments = [];
+    User.find({ appointment_id: { $exists: true } }, async (err, users) => {
+        if (err) {
+            console.log('Error: ', err);
+        }
 
-    for (const user of users) {
-      if (
-        (user.test_type === test_type || test_type === 'all') &&
-        user.examiner_feedback == undefined
-      ) {
-        const appointment = await Appointment.findById(
-          user.appointment_id.toString()
-        );
+        const userWithAppointments = [];
 
-        console.log(appointment);
+        for (const user of users) {
+            if (
+                (user.test_type === test_type || test_type === 'all') &&
+                user.examiner_feedback == undefined
+            ) {
+                const appointment = await Appointment.findById(user.appointment_id.toString());
 
-        userWithAppointments.push({
-          user,
-          appointment
+                console.log(appointment);
+
+                userWithAppointments.push({
+                    user,
+                    appointment
+                });
+            }
+        }
+
+        return res.render('examiner', {
+            userWithAppointments,
+            test_type,
+            user
         });
-      }
-    }
-
-    return res.render('examiner', {
-      userWithAppointments,
-      test_type,
-      user
     });
-  });
 };

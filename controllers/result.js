@@ -1,39 +1,37 @@
 const Appointment = require('../model/Appointment');
-const User = require('../model/user');
+const User = require('../model/User');
 
 module.exports = (req, res) => {
-  let { result } = req.query;
+    let { result } = req.query;
 
-  if (!result) {
-    result = 'all';
-    return res.redirect('/result?result=' + result);
-  }
-
-  User.find({ appointment_id: { $exists: true } }, async (err, users) => {
-    if (err) {
-      console.log('Error: ', err);
+    if (!result) {
+        result = 'all';
+        return res.redirect(`/result?result=${result}`);
     }
 
-    const userWithAppointments = [];
+    User.find({ appointment_id: { $exists: true } }, async (err, users) => {
+        if (err) {
+            console.log('Error: ', err);
+        }
 
-    for (const user of users) {
-      if (String(user.examiner_feedback) == result || result === 'all') {
-        const appointment = await Appointment.findById(
-          user.appointment_id.toString()
-        );
+        const userWithAppointments = [];
 
-        console.log(appointment);
+        for (const user of users) {
+            if (String(user.examiner_feedback) == result || result === 'all') {
+                const appointment = await Appointment.findById(user.appointment_id.toString());
 
-        userWithAppointments.push({
-          user,
-          appointment
+                console.log(appointment);
+
+                userWithAppointments.push({
+                    user,
+                    appointment
+                });
+            }
+        }
+
+        return res.render('result', {
+            userWithAppointments,
+            result
         });
-      }
-    }
-
-    return res.render('result', {
-      userWithAppointments,
-      result
     });
-  });
 };
